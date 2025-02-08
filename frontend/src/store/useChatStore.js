@@ -9,7 +9,6 @@ export const useChatStore = create((set, get) => ({
   selectedUser: null,
   isUsersLoading: false,
   isMessagesLoading: false,
-
   getUsers: async () => {
     set({ isUsersLoading: true });
     try {
@@ -21,7 +20,6 @@ export const useChatStore = create((set, get) => ({
       set({ isUsersLoading: false });
     }
   },
-
   getMessages: async (userId) => {
     set({ isMessagesLoading: true });
     try {
@@ -42,7 +40,6 @@ export const useChatStore = create((set, get) => ({
       toast.error(error.response.data.message);
     }
   },
-
   subscribeToMessages: () => {
     const { selectedUser } = get();
     if (!selectedUser) return;
@@ -55,11 +52,9 @@ export const useChatStore = create((set, get) => ({
       });
     });
   },
-
   unsubscribeFromMessages: () => {
     const socket = useAuthStore.getState().socket;
     socket.off("newMessage");
   },
-
   setSelectedUser: (selectedUser) => set({ selectedUser }),
 }));

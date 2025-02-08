@@ -13,11 +13,10 @@ export const useAuthStore = create((set, get) => ({
   isCheckingAuth: true,
   onlineUsers: [],
   socket: null,
-
   checkAuth: async () => {
     try {
       const res = await axiosInstance.get("/auth/check");
-
+      console.log(import.meta.env.MODE );
       set({ authUser: res.data });
       get().connectSocket();
     } catch (error) {
@@ -67,7 +66,6 @@ export const useAuthStore = create((set, get) => ({
       toast.error(error.response.data.message);
     }
   },
-
   updateProfile: async (data) => {
     set({ isUpdatingProfile: true });
     try {
@@ -81,7 +79,6 @@ export const useAuthStore = create((set, get) => ({
       set({ isUpdatingProfile: false });
     }
   },
-
   connectSocket: () => {
     const { authUser } = get();
     if (!authUser || get().socket?.connected) return;
