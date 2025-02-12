@@ -3,7 +3,8 @@ import { axiosInstance } from "../lib/axios.js";
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 
-const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:5001" : "/";
+const BASE_URL =
+  import.meta.env.MODE === "development" ? "http://localhost:5001" : "/";
 
 export const useAuthStore = create((set, get) => ({
   authUser: null,
@@ -13,10 +14,11 @@ export const useAuthStore = create((set, get) => ({
   isCheckingAuth: true,
   onlineUsers: [],
   socket: null,
+  clientId: "278106435222-r20vtilsroe4r8s5hp3g4kemumlsiak4.apps.googleusercontent.com",
   checkAuth: async () => {
     try {
       const res = await axiosInstance.get("/auth/check");
-      console.log(import.meta.env.MODE );
+      console.log(import.meta.env.MODE);
       set({ authUser: res.data });
       get().connectSocket();
     } catch (error) {
@@ -48,6 +50,24 @@ export const useAuthStore = create((set, get) => ({
       set({ authUser: res.data });
       toast.success("Logged in successfully");
 
+      get().connectSocket();
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      set({ isLoggingIn: false });
+    }
+  },
+
+  signinWithGoogle: async (googleData) => {
+    set({ isLoggingIn: true });
+    console.log("some thing in authstore ")
+    console.log(googleData)
+    try {
+      console.log("some thing in authstore  try")
+      const res = await axiosInstance.post("/auth/google", googleData);
+      console.log("some thing in authstore res " , res)
+      set({ authUser: res.data });
+      toast.success("Logged in with Google successfully");
       get().connectSocket();
     } catch (error) {
       toast.error(error.response.data.message);

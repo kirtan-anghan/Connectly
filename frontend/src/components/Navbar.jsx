@@ -18,7 +18,7 @@ const Navbar = () => {
               className="flex items-center gap-2.5 hover:opacity-80 transition-all"
             >
               <div className="size-9 rounded-lg bg-primary/10 flex items-center justify-center">
-              <img src="/chat.svg" alt="Connectly" className="w-9 h-9" />
+                <img src="/chat.svg" alt="Connectly" className="w-9 h-9" />
               </div>
               <h1 className="text-lg font-bold">Connectly</h1>
             </Link>
@@ -38,9 +38,19 @@ const Navbar = () => {
 
             {authUser && (
               <>
-                <Link to={"/profile"} className={`btn btn-sm gap-2`}>
-                  <User className="size-5" />
-                  <span className="hidden sm:inline">Profile</span>
+                <Link to={"/profile"}>
+                  {authUser.profilePic ? (
+                    <img
+                      src={authUser.profilePic}
+                      alt="Profile"
+                      className="w-8 h-8 rounded-2xl mx-3"
+                    />
+                  ) : (
+                    <div className="btn btn-sm gap-2 ">
+                      <User className="w-4 h-4" />
+                      <span className=" hidden sm:inline">Profile</span>{" "}
+                    </div>
+                  )}
                 </Link>
 
                 <button className="flex gap-2 items-center" onClick={logout}>

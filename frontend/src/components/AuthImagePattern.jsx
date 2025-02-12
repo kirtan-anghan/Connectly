@@ -7,7 +7,7 @@ const AuthImagePattern = ({ title, subtitle }) => {
             <div
               key={i}
               className={`absolute w-8 h-8 rounded-full bg-primary/20 ${
-                i % 2 === 0 ? "animate-bounce" : "animate-spin"
+                i % 2 === 0 ? "animate-bounce" : "animate-pulse"
               }`}
               style={{
                 top: `${Math.random() * 100}%`,
