@@ -11,6 +11,7 @@ const MessageInput = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+  
     if (!file.type.startsWith("image/")) {
       toast.error("Please select an image file");
       return;
@@ -38,7 +39,6 @@ const MessageInput = () => {
         image: imagePreview,
       });
 
-      // Clear 
       setText("");
       setImagePreview(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -73,7 +73,7 @@ const MessageInput = () => {
         <div className="flex-1 flex gap-2">
           <input
             type="text"
-            className="w-full input input-bordered rounded-lg input-sm sm:input-md"
+            className="w-full input input-bordered rounded-lg input-md "
             placeholder="Type a message..."
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -88,8 +88,8 @@ const MessageInput = () => {
 
           <button
             type="button"
-            className={`hidden sm:flex btn btn-circle
-                     ${imagePreview ? "text-emerald-500" : "text-zinc-400"}`}
+            className={` sm:flex btn btn-circle
+                    `}
             onClick={() => fileInputRef.current?.click()}
           >
             <Image size={20} />
@@ -97,7 +97,7 @@ const MessageInput = () => {
         </div>
         <button
           type="submit"
-          className="btn btn-sm btn-circle"
+          className=" btn sm:flex btn-circle"
           disabled={!text.trim() && !imagePreview}
         >
           <Send size={22} />

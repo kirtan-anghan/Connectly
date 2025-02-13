@@ -19,7 +19,6 @@ const LoginPage = () => {
   };
 
   const handleSuccess = async (googleData) => {
-    console.log("done front end");
     signinWithGoogle(googleData);
   };
 
@@ -107,7 +106,7 @@ const LoginPage = () => {
               )}
             </button>
           </form>
-          <div>
+          <div className="text-center space-y-6">
             <GoogleOAuthProvider clientId={clientId}>
               <GoogleLogin
                 onSuccess={handleSuccess}

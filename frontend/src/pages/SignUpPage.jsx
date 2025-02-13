@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import AuthImagePattern from "../components/AuthImagePattern";
 import toast from "react-hot-toast";
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,7 +14,7 @@ const SignUpPage = () => {
     email: "",
     password: "",
   });
-  const { signup, isSigningUp } = useAuthStore();
+  const { signup, isSigningUp ,signinWithGoogle ,clientId } = useAuthStore();
   const validateForm = () => {
     if (!formData.fullName.trim()) return toast.error("Full name is required");
     if (!formData.email.trim()) return toast.error("Email is required");
@@ -27,6 +28,10 @@ const SignUpPage = () => {
     const success = validateForm();
     if (success === true) signup(formData);
   };
+    const handleSuccess = async (googleData) => {
+      signinWithGoogle(googleData);
+    };
+
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
       <div className="flex flex-col justify-center items-center p-6 sm:p-12">
@@ -37,7 +42,9 @@ const SignUpPage = () => {
                 <MessageSquare className="size-6 text-primary" />
               </div>
               <h1 className="text-2xl font-bold mt-2">Create Account</h1>
-              <p className="text-base-content/60">Get started with your free account</p>
+              <p className="text-base-content/60">
+                Get started with your free account
+              </p>
             </div>
           </div>
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -54,7 +61,9 @@ const SignUpPage = () => {
                   className={`input input-bordered w-full pl-10`}
                   placeholder="User Name"
                   value={formData.fullName}
-                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, fullName: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -72,7 +81,9 @@ const SignUpPage = () => {
                   className={`input input-bordered w-full pl-10`}
                   placeholder="you@example.com"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -89,7 +100,9 @@ const SignUpPage = () => {
                   className={`input input-bordered w-full pl-10`}
                   placeholder="••••••••"
                   value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
                 />
                 <button
                   type="button"
@@ -105,7 +118,11 @@ const SignUpPage = () => {
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary w-full" disabled={isSigningUp}>
+            <button
+              type="submit"
+              className="btn btn-primary w-full"
+              disabled={isSigningUp}
+            >
               {isSigningUp ? (
                 <>
                   <Loader2 className="size-5 animate-spin" />
@@ -116,6 +133,15 @@ const SignUpPage = () => {
               )}
             </button>
           </form>
+          <div className="text-center space-y-6">
+            <GoogleOAuthProvider clientId={clientId}>
+              <GoogleLogin
+                onSuccess={handleSuccess}
+                onError={() => console.log("Login Failed")}
+                className="rounded-lg w-full bg-primary text-white p-2 text-center"
+              />
+            </GoogleOAuthProvider>
+          </div>
           <div className="text-center">
             <p className="text-base-content/60">
               Already have an account?{" "}

@@ -18,11 +18,9 @@ export const useAuthStore = create((set, get) => ({
   checkAuth: async () => {
     try {
       const res = await axiosInstance.get("/auth/check");
-      console.log(import.meta.env.MODE);
       set({ authUser: res.data });
       get().connectSocket();
     } catch (error) {
-      console.log("Error in checkAuth:", error);
       set({ authUser: null });
     } finally {
       set({ isCheckingAuth: false });
@@ -60,12 +58,8 @@ export const useAuthStore = create((set, get) => ({
 
   signinWithGoogle: async (googleData) => {
     set({ isLoggingIn: true });
-    console.log("some thing in authstore ")
-    console.log(googleData)
     try {
-      console.log("some thing in authstore  try")
       const res = await axiosInstance.post("/auth/google", googleData);
-      console.log("some thing in authstore res " , res)
       set({ authUser: res.data });
       toast.success("Logged in with Google successfully");
       get().connectSocket();
